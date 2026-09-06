@@ -2,9 +2,6 @@ import re
 import json
 
 
-# The quick brown fox jumps over the lazy dog
-
-
 # ==========================================
 # EMAIL
 # ==========================================

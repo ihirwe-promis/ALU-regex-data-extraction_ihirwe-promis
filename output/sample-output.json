@@ -1,0 +1,62 @@
+[
+  {
+    "value": "j************@example.com",
+    "type": "email",
+    "valid": true,
+    "category": "non-ALU"
+  },
+  {
+    "value": "j************@alueducation.com",
+    "type": "email",
+    "valid": true,
+    "category": "official"
+  },
+  {
+    "value": "a**********@example.org",
+    "type": "email",
+    "valid": true,
+    "category": "non-ALU"
+  },
+  {
+    "value": "a**********@alumni.alueducation.com",
+    "type": "email",
+    "valid": true,
+    "category": "alumni"
+  },
+  {
+    "value": "p********@si.alueducation.com",
+    "type": "email",
+    "valid": true,
+    "category": "si"
+  },
+  {
+    "value": "************4242",
+    "type": "credit_card",
+    "valid": true
+  },
+  {
+    "value": "+250******456",
+    "type": "phone",
+    "valid": true
+  },
+  {
+    "value": "+250******789",
+    "type": "phone",
+    "valid": true
+  },
+  {
+    "value": "+250******222",
+    "type": "phone",
+    "valid": true
+  },
+  {
+    "value": "https://www.example.com/support/ticket/10482",
+    "type": "url",
+    "valid": true
+  },
+  {
+    "value": "https://support.example.org/account/help",
+    "type": "url",
+    "valid": true
+  }
+]

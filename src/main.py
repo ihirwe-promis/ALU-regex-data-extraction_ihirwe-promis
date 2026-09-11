@@ -1,13 +1,14 @@
 import re 
 import json
 
-email_pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+email_validate_pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+email_extra_pattern = r"\S+@\S+\.\S+"
 card_pattern = r"\b(?:\d{4}[- ]?){3}\d{4}\b"
 phone_pattern = r"\+250(?:[- ]?\d{3}){3}"
 url_pattern = r"https?://[a-zA-Z0-9.-]+(?:/[^\s]*)?"
 
 def validate_email(email):
-    return bool(re.fullmatch(email_pattern,email))
+    return bool(re.fullmatch(email_validate_pattern,email))
 
 def classify_alu_email(email):
     domain= email.split("@",1) [1].lower()
@@ -88,7 +89,7 @@ with open ("input/raw-text.txt", encoding="utf-8") as file:
     text =file.read()
 
 patterns =[
-    (r"\S+@\S+\.\S+", process_email),
+    (email_extra_pattern, process_email),
     (card_pattern, process_card),
     (phone_pattern, process_phone),
     (url_pattern, process_url)

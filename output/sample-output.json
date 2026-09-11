@@ -12,6 +12,21 @@
     "group": "official"
   },
   {
+    "data": "+250******456",
+    "type": "phonenumber",
+    "valid": true
+  },
+  {
+    "data": "https://www.example.com/support/ticket/10482",
+    "type": "url",
+    "valid": true
+  },
+  {
+    "data": "************4242",
+    "type": "credit card",
+    "valid": true
+  },
+  {
     "data": "a**********@example.org",
     "type": "email",
     "valid": true,
@@ -24,39 +39,24 @@
     "group": "alumni"
   },
   {
+    "data": "+250******789",
+    "type": "phonenumber",
+    "valid": true
+  },
+  {
+    "data": "https://support.example.org/account/help",
+    "type": "url",
+    "valid": true
+  },
+  {
     "data": "p********@si.alueducation.com",
     "type": "email",
     "valid": true,
     "group": "si"
   },
   {
-    "data": "************4242",
-    "type": "credit card",
-    "valid": true
-  },
-  {
-    "data": "+250******456",
-    "type": "phonenumber",
-    "valid": true
-  },
-  {
-    "data": "+250******789",
-    "type": "phonenumber",
-    "valid": true
-  },
-  {
     "data": "+250******222",
     "type": "phonenumber",
-    "valid": true
-  },
-  {
-    "data": "https://www.example.com/support/ticket/10482",
-    "type": "url",
-    "valid": true
-  },
-  {
-    "data": "https://support.example.org/account/help",
-    "type": "url",
     "valid": true
   }
 ]

@@ -10,7 +10,6 @@ Primary contact: jean.mukamana@example.com
 ALU contact: jean.mukamana@alueducation.com
 Telephone: +250 788 123 456
 
-The customer reported an account issue at 09:45 AM.
 Reference website: https://www.example.com/support/ticket/10482
 
 Payment information provided for verification:
@@ -24,7 +23,6 @@ Primary contact: alice.uwase@example.org
 Alumni contact: alice.uwase@alumni.alueducation.com
 Telephone: +250-722-456-789
 
-The customer requested assistance at 18:30.
 More information: https://support.example.org/account/help
 
 --------------------------------------------------
@@ -34,7 +32,6 @@ Customer: Patrick N.
 SI contact: patrick.n@si.alueducation.com
 Telephone: +250 783 555 222
 
-The customer visited the portal at 2:15 PM.
 
 --------------------------------------------------
 Additional records received from external systems:

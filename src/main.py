@@ -1,270 +1,108 @@
-import re
+import re 
 import json
 
-
-# ==========================================
-# EMAIL
-# ==========================================
-
-EMAIL_PATTERN = (
-    r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-)
-
+email_pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+card_pattern = r"\b(?:\d{4}[- ]?){3}\d{4}\b"
+phone_pattern = r"\+250(?:[- ]?\d{3}){3}"
+url_pattern = r"https?://[a-zA-Z0-9.-]+(?:/[^\s]*)?"
 
 def validate_email(email):
-    return bool(re.fullmatch(EMAIL_PATTERN, email))
-
+    return bool(re.fullmatch(email_pattern,email))
 
 def classify_alu_email(email):
-    domain = email.split("@", 1)[1].lower()
+    domain= email.split("@",1) [1].lower()
 
-    if domain == "alumni.alueducation.com":
+    if domain =="alumni.alueducation.com":
         return "alumni"
-    elif domain == "si.alueducation.com":
+    if domain =="si.alueducation.com":
         return "si"
-    elif domain == "alueducation.com":
+    if domain =="alueducation.com":
         return "official"
-    else:
-        return "non-ALU"
+    return "non-official"
 
-
-def mask_email(email):
-    username, domain = email.split("@", 1)
-    masked_username = (username[0] + "*" * (len(username) - 1))
-
-    return masked_username + "@" + domain
-
+def masked_email(email):
+    username, domain = email.split("@",1)
+    return username[0]+ "*" * (len(username) -1) +"@" + domain
 
 def process_email(email):
     if not validate_email(email):
         return None
-
     return {
-        "data": mask_email(email),
-        "type": "email",
-        "valid": True,
-        "category": classify_alu_email(email)
+        "data":masked_email(email),
+        "type":"email",
+        "valid":True,
+        "group":classify_alu_email(email)
     }
 
-
-# ==========================================
-# CREDIT CARD
-# ==========================================
-
-CARD_PATTERN = r"\b(?:\d{4}[- ]?){3}\d{4}\b"
-
-
 def normalize_card(card):
-    return re.sub(r"[- ]", "", card)
-
+    return re.sub (r"[- ]", "",card)
 
 def luhn_check(card):
-    total = 0
-    reverse_digits = card[::-1]
-
-    for position, digit in enumerate(reverse_digits):
-        number = int(digit)
-
-        if position % 2 == 1:
-            number *= 2
-
-            if number > 9:
-                number -= 9
-
-        total += number
-
-    return total % 10 == 0
-
+    total =0
+    for i, digit in enumerate(card[::-1]):
+        n = int(digit)
+        if i%2:
+            n*=2 
+            if n>9:
+                n-=9
+        total +=n
+    return total %10 ==0
 
 def validate_card(card):
-    normalized = normalize_card(card)
-
-    if len(normalized) != 16 or not normalized.isdigit():
-        return False
-
-    return luhn_check(normalized)
-
-
-def mask_card(card):
-    normalized = normalize_card(card)
-
-    return "*" * 12 + normalized[-4:]
-
+    card = normalize_card(card)
+    return len(card) ==16 and card.isdigit() and luhn_check(card)
 
 def process_card(card):
     if not validate_card(card):
-        return None
-
+        return None 
+    card = normalize_card(card)
     return {
-        "data": mask_card(card),
-        "type": "credit_card",
+        "data":"*" * 12 + card[-4:],
+        "type":"credit card",
         "valid": True
     }
-
-
-# ==========================================
-# PHONE NUMBER
-# ==========================================
-
-PHONE_PATTERN = r"\+250(?:[- ]?\d{3}){3}"
-
 
 def normalize_phone(phone):
-    return re.sub(r"[- ]", "", phone)
-
-
-def validate_phone(phone):
-    normalized = normalize_phone(phone)
-
-    return bool(
-        re.fullmatch(r"\+250\d{9}", normalized)
-    )
-
-
-def mask_phone(phone):
-    normalized = normalize_phone(phone)
-
-    return normalized[:4] + "******" + normalized[-3:]
-
+    return re.sub(r"[- ]", "",phone)
 
 def process_phone(phone):
-    if not validate_phone(phone):
-        return None
-
+    phone =normalize_phone(phone)
+    if not re.fullmatch(r"\+250\d{9}",phone):
+        return None 
     return {
-        "data": mask_phone(phone),
-        "type": "phone",
-        "valid": True
+        "data":phone[:4]+"******"+phone[-3:],
+        "type":"phonenumber",
+        "valid":True
     }
-
-
-# ==========================================
-# URL
-# ==========================================
-
-URL_PATTERN = (
-    r"https?://[a-zA-Z0-9.-]+(?:/[^\s]*)?"
-)
-
-
-def validate_url(url):
-    pattern = (
-        r"^https?://[a-zA-Z0-9.-]+(?:/[^\s]*)?$"
-    )
-
-    return bool(re.fullmatch(pattern, url))
-
 
 def process_url(url):
-    if not validate_url(url):
-        return None
-
+    if not re.fullmatch(url_pattern,url):
+        return None 
     return {
-        "data": url,
-        "type": "url",
-        "valid": True
+        "data":url,
+        "type":"url",
+        "valid":True
     }
 
+with open ("input/raw-text.txt", encoding="utf-8") as file:
+    text =file.read()
 
-# ==========================================
-# READ INPUT FILE
-# ==========================================
+patterns =[
+    (r"\S+@\S+\.\S+", process_email),
+    (card_pattern, process_card),
+    (phone_pattern, process_phone),
+    (url_pattern, process_url)
+]
+results =[]
 
-with open(    "input/raw-text.txt", "r", encoding="utf-8") as file:
-    text = file.read()
+for pattern, processor in patterns:
+    for value in re.findall(pattern, text):
+        result = processor(value)
+        if result:
+            results.append(result)
 
+with open ("output/sample-output.json", "w", encoding="utf-8") as file:
+    json.dump(results,file,indent=2)
 
-# ==========================================
-# EXTRACT EMAILS
-# ==========================================
-
-email_candidates = re.findall(
-    r"\S+@\S+\.\S+",
-    text
-)
-
-email_results = []
-
-for email in email_candidates:
-    result = process_email(email)
-
-    if result is not None:
-        email_results.append(result)
-
-
-# ==========================================
-# EXTRACT CREDIT CARDS
-# ==========================================
-
-card_candidates = re.findall(
-    CARD_PATTERN,
-    text
-)
-
-card_results = []
-
-for card in card_candidates:
-    result = process_card(card)
-
-    if result is not None:
-        card_results.append(result)
-
-
-# ==========================================
-# EXTRACT PHONE NUMBERS
-# ==========================================
-
-phone_candidates = re.findall(
-    PHONE_PATTERN,
-    text
-)
-
-phone_results = []
-
-for phone in phone_candidates:
-    result = process_phone(phone)
-
-    if result is not None:
-        phone_results.append(result)
-
-
-# ==========================================
-# EXTRACT URLS
-# ==========================================
-
-url_candidates = re.findall(
-    URL_PATTERN,
-    text
-)
-
-url_results = []
-
-for url in url_candidates:
-    result = process_url(url)
-
-    if result is not None:
-        url_results.append(result)
-
-
-# ==========================================
-# COMBINE ALL RESULTS
-# ==========================================
-
-all_results = []
-
-all_results.extend(email_results)
-all_results.extend(card_results)
-all_results.extend(phone_results)
-all_results.extend(url_results)
-
-
-# ==========================================
-# SAVE RESULTS AS JSON
-# ==========================================
-
-with open(   "output/sample-output.json", "w",  encoding="utf-8") as file:
-    json.dump( all_results, file,  indent=2)
-
-
-print("Extraction completed successfully.")
-print("Results saved to output/sample-output.json")
+print("extraction completed successfully")
+print("results saved to output/sample-output.json")

@@ -73,7 +73,8 @@ cd ALU-regex-data-extraction_ihirwe-promis
 Run the program with:
 
 ```bash
-python3 src/main.py
+python3 src/main.py if it is linux or 
+python src/main.py if it is window
 ```
 
 The extracted and validated results are saved to:

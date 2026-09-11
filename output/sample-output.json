@@ -3,50 +3,50 @@
     "data": "j************@example.com",
     "type": "email",
     "valid": true,
-    "category": "non-ALU"
+    "group": "non-official"
   },
   {
     "data": "j************@alueducation.com",
     "type": "email",
     "valid": true,
-    "category": "official"
+    "group": "official"
   },
   {
     "data": "a**********@example.org",
     "type": "email",
     "valid": true,
-    "category": "non-ALU"
+    "group": "non-official"
   },
   {
     "data": "a**********@alumni.alueducation.com",
     "type": "email",
     "valid": true,
-    "category": "alumni"
+    "group": "alumni"
   },
   {
     "data": "p********@si.alueducation.com",
     "type": "email",
     "valid": true,
-    "category": "si"
+    "group": "si"
   },
   {
     "data": "************4242",
-    "type": "credit_card",
+    "type": "credit card",
     "valid": true
   },
   {
     "data": "+250******456",
-    "type": "phone",
+    "type": "phonenumber",
     "valid": true
   },
   {
     "data": "+250******789",
-    "type": "phone",
+    "type": "phonenumber",
     "valid": true
   },
   {
     "data": "+250******222",
-    "type": "phone",
+    "type": "phonenumber",
     "valid": true
   },
   {
